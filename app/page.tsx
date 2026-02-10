@@ -11,7 +11,7 @@ import { SkillsSection } from "@/components/SkillsSection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background ">
+    <div className="min-h-screen bg-background dark">
       <Navigation />
       <main>
         <HeroSection />
