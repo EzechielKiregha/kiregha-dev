@@ -1,3 +1,4 @@
+"use client"
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Heart, ArrowUp } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
@@ -12,8 +13,8 @@ export function Footer() {
   return (
     <footer className="relative border-t border-border">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-surface to-background pointer-events-none" />
-      
+      <div className="absolute inset-0 bg-linear-to-t from-surface to-background pointer-events-none" />
+
       <div className="container-custom relative py-16">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
@@ -81,11 +82,11 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border">
           <p className="text-sm text-muted-foreground flex items-center gap-1">
-            © {currentYear} Kambale Ezechiel. Made with 
-            <Heart className="w-3 h-3 text-primary inline" /> 
+            © {currentYear} Kambale Ezechiel. Made with
+            <Heart className="w-3 h-3 text-primary inline" />
             in Africa
           </p>
-          
+
           <motion.button
             onClick={scrollToTop}
             whileHover={{ y: -2 }}

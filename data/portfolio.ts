@@ -1,10 +1,8 @@
-// Portfolio Data - Will be moved to database with Lovable Cloud
-
 export const personalInfo = {
   name: "Kambale Kiregha Ezechiel",
   title: "Full-Stack Developer | Systems & Backend Engineer",
   mission: "Building scalable digital platforms that drive innovation across Africa. Focused on crafting robust backend systems, SaaS solutions, and AI-powered applications that solve real-world problems.",
-  email: "ezechiel@example.com",
+  email: "kkiregha@gmail.com",
   github: "https://github.com/EzechielKiregha",
   linkedin: "https://www.linkedin.com/in/kambale-kiregha-125a60264/",
   location: "Africa",

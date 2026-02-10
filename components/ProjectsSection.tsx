@@ -1,3 +1,4 @@
+"use client"
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
@@ -53,11 +54,10 @@ export function ProjectsSection() {
                 setActiveCategory(category);
                 setShowAll(false);
               }}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category
-                  ? "bg-primary text-primary-foreground glow-gold-sm"
-                  : "glass hover:border-primary/50"
-              }`}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === category
+                ? "bg-primary text-primary-foreground glow-gold-sm"
+                : "glass hover:border-primary/50"
+                }`}
             >
               {category}
             </button>
@@ -82,7 +82,7 @@ export function ProjectsSection() {
                     {project.title.charAt(0)}
                   </span>
                 </div>
-                
+
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary text-primary-foreground">

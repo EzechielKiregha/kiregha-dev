@@ -1,3 +1,4 @@
+"use client"
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
@@ -7,7 +8,7 @@ import { personalInfo } from "@/data/portfolio";
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,13 +19,13 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    
+
     // Simulate form submission - Replace with actual API call when Cloud is enabled
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
+
     setStatus("success");
     setFormData({ name: "", email: "", message: "" });
-    
+
     setTimeout(() => setStatus("idle"), 3000);
   };
 
@@ -187,7 +188,7 @@ export function ContactSection() {
                   Message sent successfully! I'll get back to you soon.
                 </div>
               )}
-              
+
               {status === "error" && (
                 <div className="flex items-center gap-2 text-destructive text-sm">
                   <AlertCircle className="w-4 h-4" />

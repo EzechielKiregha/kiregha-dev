@@ -1,3 +1,4 @@
+"use client"
 import { motion } from "framer-motion";
 import { ArrowDown, Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
@@ -9,7 +10,7 @@ export function HeroSection() {
       <div className="absolute inset-0 dot-pattern opacity-30" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "-3s" }} />
-      
+
       <div className="container-custom relative z-10 py-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Status Badge */}
@@ -29,7 +30,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-display-md md:text-display-lg lg:text-display-xl font-bold mb-4"
+            className="text-md md:text-lg lg:text-8xl font-bold mb-4"
           >
             <span className="text-foreground">Hi, I'm </span>
             <span className="text-gradient-gold">{personalInfo.name.split(" ")[0]}</span>

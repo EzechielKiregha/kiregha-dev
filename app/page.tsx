@@ -1,3 +1,4 @@
+"use client"
 import { AboutSection } from "@/components/AboutSection";
 import { CertificationsSection } from "@/components/CertificationsSection";
 import { ContactSection } from "@/components/ContactSection";

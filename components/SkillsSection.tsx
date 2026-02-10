@@ -1,13 +1,14 @@
+"use client"
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { 
-  Code2, 
-  Layout, 
-  Server, 
-  Database, 
-  Cloud, 
-  Plug 
+import {
+  Code2,
+  Layout,
+  Server,
+  Database,
+  Cloud,
+  Plug
 } from "lucide-react";
 import { skills } from "@/data/portfolio";
 
