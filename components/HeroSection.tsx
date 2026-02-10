@@ -33,7 +33,7 @@ export function HeroSection() {
             className="text-md md:text-lg lg:text-8xl font-bold mb-4"
           >
             <span className="text-foreground">Hi, I'm </span>
-            <span className="text-gradient-gold">{personalInfo.name.split(" ")[0]}</span>
+            <span className="text-gradient-gold">{personalInfo.name.split(" ")[1]}</span>
           </motion.h1>
 
           {/* Title */}
