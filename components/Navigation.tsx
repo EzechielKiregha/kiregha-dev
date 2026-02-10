@@ -129,6 +129,12 @@ export function Navigation() {
                 </motion.a>
               ))}
               <div className="flex items-center gap-4 pt-4 border-t border-border">
+                <div className="btn-ghost p-2 cursor-pointer">
+                  {theme === "dark" ?
+                    <MoonIcon className="w-5 h-5" onClick={toggleTheme} /> :
+                    <SunIcon className="w-5 h-5" onClick={toggleTheme} />
+                  }
+                </div>
                 <a
                   href={personalInfo.github}
                   target="_blank"
