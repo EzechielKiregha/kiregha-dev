@@ -6,7 +6,7 @@ export const personalInfo = {
   github: "https://github.com/EzechielKiregha",
   linkedin: "https://www.linkedin.com/in/kambale-kiregha-125a60264/",
   location: "Africa",
-  cvUrl: "/cv.pdf",
+  cvUrl: "/Kambale_Kiregha_Ezechiel_CV.pdf",
 };
 
 export const skills = {

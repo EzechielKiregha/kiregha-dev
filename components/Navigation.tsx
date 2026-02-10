@@ -1,8 +1,9 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
+import { Menu, X, Github, Linkedin, Mail, Sun, MoonIcon, SunIcon } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
+import { useTheme } from "next-themes";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -16,6 +17,11 @@ const navLinks = [
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,10 +43,10 @@ export function Navigation() {
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 group">
           <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-primary-foreground text-lg">
-            KE
+            K
           </div>
           <span className="hidden sm:block font-semibold text-foreground group-hover:text-primary transition-colors">
-            Kambale
+            Kiregha
           </span>
         </a>
 
@@ -59,6 +65,12 @@ export function Navigation() {
 
         {/* Social Links & CTA */}
         <div className="hidden lg:flex items-center gap-4">
+          <div className="btn-ghost p-2 cursor-pointer">
+            {theme === "dark" ?
+              <MoonIcon className="w-5 h-5" onClick={toggleTheme} /> :
+              <SunIcon className="w-5 h-5" onClick={toggleTheme} />
+            }
+          </div>
           <a
             href={personalInfo.github}
             target="_blank"
