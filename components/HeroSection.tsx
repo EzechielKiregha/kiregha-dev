@@ -30,7 +30,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-md md:text-lg lg:text-8xl font-bold mb-4"
+            className="text-display-md md:text-display-lg lg:text-display-xl font-bold mb-4"
           >
             <span className="text-foreground">Hi, I'm </span>
             <span className="text-gradient-gold">{personalInfo.name.split(" ")[1]}</span>
