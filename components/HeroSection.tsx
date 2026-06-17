@@ -1,6 +1,13 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import {
+  ArrowDown,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
 
 export function HeroSection() {
@@ -9,7 +16,10 @@ export function HeroSection() {
       {/* Background Elements */}
       <div className="absolute inset-0 dot-pattern opacity-30" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "-3s" }} />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-float"
+        style={{ animationDelay: "-3s" }}
+      />
 
       <div className="container-custom relative z-10 py-32">
         <div className="max-w-4xl mx-auto text-center">
@@ -22,7 +32,9 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-gradient mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-sm text-muted-foreground">Available for opportunities</span>
+            <span className="text-sm text-muted-foreground">
+              Available for opportunities
+            </span>
           </motion.div>
 
           {/* Name */}
@@ -32,8 +44,10 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-display-xl md:text-3xl lg:text-5xl font-bold mb-4"
           >
-            <span className="text-foreground">Hi, I'm </span>
-            <span className="text-gradient-gold">{personalInfo.name.split(" ")[1]}</span>
+            <span className="text-foreground">Hi, I&apos;m </span>
+            <span className="text-gradient-gold">
+              {personalInfo.name.split(" ")[1]}
+            </span>
           </motion.h1>
 
           {/* Title */}

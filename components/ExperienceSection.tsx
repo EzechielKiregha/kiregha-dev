@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -23,7 +23,8 @@ export function ExperienceSection() {
             Work Experience
           </span>
           <h2 className="section-heading mb-4">
-            Where I've <span className="text-gradient-gold">Made Impact</span>
+            Where I&apos;ve{" "}
+            <span className="text-gradient-gold">Made Impact</span>
           </h2>
           <p className="section-subheading mx-auto">
             Professional experience building enterprise-level solutions
@@ -51,12 +52,16 @@ export function ExperienceSection() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">{experience.role}</h3>
-                    <p className="text-primary font-semibold">{experience.company}</p>
+                    <p className="text-primary font-semibold">
+                      {experience.company}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Calendar className="w-4 h-4" />
-                  <span className="text-sm font-medium">{experience.period}</span>
+                  <span className="text-sm font-medium">
+                    {experience.period}
+                  </span>
                 </div>
               </div>
 

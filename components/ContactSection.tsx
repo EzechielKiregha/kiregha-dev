@@ -1,35 +1,82 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, MapPin, Github, Linkedin, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Send,
+  Mail,
+  MapPin,
+  Github,
+  Linkedin,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
+import { toast } from "sonner";
 
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const MY_PHONE = "250790802201";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const buildWhatsAppUrl = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name) {
+      toast.error(
+        "It will be much appreciated to know beforehand who's reaching out. Thank you.",
+      );
+      return;
+    }
+
+    if (!formData.email) {
+      toast.error("Your email please!");
+      return;
+    }
+
+    if (!formData.message) {
+      toast.error("I will be happy to read your message!");
+      return;
+    }
+
     setStatus("loading");
 
-    // Simulate form submission - Replace with actual API call when Cloud is enabled
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const message = `
+👋 New Portfolio Contact
+
+Name: ${formData.name}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+  `.trim();
+
+    const whatsappUrl = `https://wa.me/${MY_PHONE}?text=${encodeURIComponent(
+      message,
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
 
     setStatus("success");
-    setFormData({ name: "", email: "", message: "" });
-
-    setTimeout(() => setStatus("idle"), 3000);
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -50,10 +97,11 @@ export function ContactSection() {
             Get In Touch
           </span>
           <h2 className="section-heading mb-4">
-            Let's Build <span className="text-gradient-gold">Something Great</span>
+            Let&apos;s Build{" "}
+            <span className="text-gradient-gold">Something Great</span>
           </h2>
           <p className="section-subheading mx-auto">
-            Have a project in mind? I'd love to hear about it.
+            Have a project in mind? I&apos;d love to hear about it.
           </p>
         </motion.div>
 
@@ -66,11 +114,13 @@ export function ContactSection() {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Let's Connect</h3>
+              <h3 className="text-2xl font-semibold mb-4">
+                Let&apos;s Connect
+              </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm always open to discussing new projects, creative ideas, or opportunities
-                to be part of your vision. Whether you have a question or just want to say hi,
-                feel free to reach out!
+                I&apos;m always open to discussing new projects, creative ideas,
+                or opportunities to be part of your vision. Whether you have a
+                question or just want to say hi, feel free to reach out!
               </p>
             </div>
 
@@ -132,9 +182,15 @@ export function ContactSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <form onSubmit={handleSubmit} className="premium-card p-8 space-y-6">
+            <form
+              onSubmit={buildWhatsAppUrl}
+              className="premium-card p-8 space-y-6"
+            >
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium mb-2"
+                >
                   Your Name
                 </label>
                 <input
@@ -145,12 +201,15 @@ export function ContactSection() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="John Doe"
+                  placeholder="Ezechiel Kiregha"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-2"
+                >
                   Your Email
                 </label>
                 <input
@@ -161,12 +220,15 @@ export function ContactSection() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="john@example.com"
+                  placeholder="kkiregha@gmail.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium mb-2"
+                >
                   Message
                 </label>
                 <textarea
@@ -185,7 +247,7 @@ export function ContactSection() {
               {status === "success" && (
                 <div className="flex items-center gap-2 text-green-500 text-sm">
                   <CheckCircle className="w-4 h-4" />
-                  Message sent successfully! I'll get back to you soon.
+                  Message sent successfully! I&apos;ll get back to you soon.
                 </div>
               )}
 
@@ -198,20 +260,9 @@ export function ContactSection() {
 
               <button
                 type="submit"
-                disabled={status === "loading"}
                 className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === "loading" ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Send Message
-                  </>
-                )}
+                <Send className="w-4 h-4" /> Send Message
               </button>
             </form>
           </motion.div>

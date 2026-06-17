@@ -1,11 +1,27 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ExternalLink, Github, Calendar, User, ChevronRight } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  Calendar,
+  User,
+  ChevronRight,
+} from "lucide-react";
 import { projects } from "@/data/portfolio";
+import Image from "next/image";
 
-const categories = ["All", "SaaS", "AI", "Marketplace", "Mobile", "Systems"];
+const categories = [
+  "All",
+  "SaaS",
+  // "AI",
+  "Marketplace",
+  // "Mobile",
+  "Systems",
+  "E-commerce",
+  "School Project",
+];
 
 export function ProjectsSection() {
   const ref = useRef(null);
@@ -14,13 +30,16 @@ export function ProjectsSection() {
   const [showAll, setShowAll] = useState(false);
 
   const filteredProjects = projects.filter(
-    (project) => activeCategory === "All" || project.category === activeCategory
+    (project) =>
+      activeCategory === "All" || project.category === activeCategory,
   );
 
-  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 6);
+  const displayedProjects = showAll
+    ? filteredProjects
+    : filteredProjects.slice(0, 6);
 
   return (
-    <section id="projects" className="section section-gradient" ref={ref}>
+    <section id="projects" className="section section-linear" ref={ref}>
       <div className="container-custom">
         {/* Section Header */}
         <motion.div
@@ -33,7 +52,7 @@ export function ProjectsSection() {
             Featured Work
           </span>
           <h2 className="section-heading mb-4">
-            Projects That <span className="text-gradient-gold">Make Impact</span>
+            Projects That <span className="text-linear-gold">Make Impact</span>
           </h2>
           <p className="section-subheading mx-auto">
             A showcase of solutions built to solve real-world challenges
@@ -54,10 +73,11 @@ export function ProjectsSection() {
                 setActiveCategory(category);
                 setShowAll(false);
               }}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === category
-                ? "bg-primary text-primary-foreground glow-gold-sm"
-                : "glass hover:border-primary/50"
-                }`}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeCategory === category
+                  ? "bg-primary text-primary-foreground glow-gold-sm"
+                  : "glass hover:border-primary/50"
+              }`}
             >
               {category}
             </button>
@@ -75,41 +95,52 @@ export function ProjectsSection() {
               className="premium-card group overflow-hidden"
             >
               {/* Project Image Placeholder */}
-              <div className="relative h-48 bg-gradient-to-br from-secondary to-muted overflow-hidden">
-                <div className="absolute inset-0 dot-pattern opacity-30" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary/20">
-                    {project.title.charAt(0)}
-                  </span>
-                </div>
+              <div className="relative h-48 overflow-hidden">
+                {project.imageUrl ? (
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-linear-to-br from-secondary to-muted" />
+                    <div className="absolute inset-0 dot-pattern opacity-30" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-4xl font-bold text-primary/20">
+                        {project.title.charAt(0)}
+                      </span>
+                    </div>
+                  </>
+                )}
 
                 {/* Category Badge */}
-                <div className="absolute top-4 left-4">
+                <div className="absolute top-4 left-4 z-10">
                   <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary text-primary-foreground">
                     {project.category}
                   </span>
                 </div>
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                <div className="absolute inset-0 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-10">
                   {project.githubUrl && (
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-                      aria-label="View GitHub"
                     >
                       <Github className="w-5 h-5" />
                     </a>
                   )}
+
                   {project.liveUrl && (
                     <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-                      aria-label="View Live Demo"
                     >
                       <ExternalLink className="w-5 h-5" />
                     </a>
@@ -158,7 +189,10 @@ export function ProjectsSection() {
                 {/* Highlights */}
                 <div className="space-y-1">
                   {project.highlights.slice(0, 2).map((highlight, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div
+                      key={i}
+                      className="flex items-center gap-2 text-xs text-muted-foreground"
+                    >
                       <ChevronRight className="w-3 h-3 text-primary" />
                       {highlight}
                     </div>
@@ -177,10 +211,7 @@ export function ProjectsSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-center mt-12"
           >
-            <button
-              onClick={() => setShowAll(true)}
-              className="btn-secondary"
-            >
+            <button onClick={() => setShowAll(true)} className="btn-secondary">
               View All Projects
               <ChevronRight className="w-4 h-4" />
             </button>
