@@ -2,270 +2,178 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import {
-  Send,
-  Mail,
-  MapPin,
-  Github,
-  Linkedin,
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
+import { Mail, MapPin, Github, Linkedin } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
-import { toast } from "sonner";
+
+type FormState = { name: string; email: string; message: string };
+type Errors = Partial<Record<keyof FormState, string>>;
+
+function validate(data: FormState): Errors {
+  const errors: Errors = {};
+  if (!data.name.trim()) errors.name = "Name is required.";
+  if (!data.email.trim()) errors.email = "Email is required.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+    errors.email = "Enter a valid email.";
+  if (!data.message.trim()) errors.message = "Message is required.";
+  return errors;
+}
 
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const MY_PHONE = "250790802201";
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormState>({
     name: "",
     email: "",
     message: "",
   });
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
-
-  const buildWhatsAppUrl = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name) {
-      toast.error(
-        "It will be much appreciated to know beforehand who's reaching out. Thank you.",
-      );
-      return;
-    }
-
-    if (!formData.email) {
-      toast.error("Your email please!");
-      return;
-    }
-
-    if (!formData.message) {
-      toast.error("I will be happy to read your message!");
-      return;
-    }
-
-    setStatus("loading");
-
-    const message = `
-👋 New Portfolio Contact
-
-Name: ${formData.name}
-Email: ${formData.email}
-
-Message:
-${formData.message}
-  `.trim();
-
-    const whatsappUrl = `https://wa.me/${MY_PHONE}?text=${encodeURIComponent(
-      message,
-    )}`;
-
-    window.open(whatsappUrl, "_blank");
-
-    setStatus("success");
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
-  };
+  const [errors, setErrors] = useState<Errors>({});
+  const [status, setStatus] = useState<"idle" | "opened">("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const v = validate(formData);
+    setErrors(v);
+    if (Object.keys(v).length > 0) return;
+
+    const subject = encodeURIComponent(`Portfolio contact from ${formData.name}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`,
+    );
+    const mailto = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+    setStatus("opened");
   };
 
   return (
     <section id="contact" className="section" ref={ref}>
       <div className="container-custom">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="max-w-3xl mb-10"
         >
-          <span className="text-primary font-semibold text-sm tracking-wider uppercase mb-4 block">
-            Get In Touch
-          </span>
-          <h2 className="section-heading mb-4">
-            Let&apos;s Build{" "}
-            <span className="text-gradient-gold">Something Great</span>
+          <p className="text-sm font-medium text-primary mb-3">Contact</p>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Get in touch
           </h2>
-          <p className="section-subheading mx-auto">
-            Have a project in mind? I&apos;d love to hear about it.
+          <p className="text-muted-foreground leading-relaxed">
+            The form opens your email client with a pre-filled message. No message
+            is sent from this site.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">
-                Let&apos;s Connect
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                I&apos;m always open to discussing new projects, creative ideas,
-                or opportunities to be part of your vision. Whether you have a
-                question or just want to say hi, feel free to reach out!
-              </p>
-            </div>
-
-            {/* Contact Details */}
-            <div className="space-y-4">
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="flex items-center gap-4 p-4 premium-card hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium">{personalInfo.email}</p>
-                </div>
-              </a>
-
-              <div className="flex items-center gap-4 p-4 premium-card">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Location</p>
-                  <p className="font-medium">{personalInfo.location}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h4 className="font-semibold mb-4">Follow Me</h4>
-              <div className="flex gap-4">
-                <a
-                  href={personalInfo.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-lg glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all group"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                </a>
-                <a
-                  href={personalInfo.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-lg glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all group"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <form
-              onSubmit={buildWhatsAppUrl}
-              className="premium-card p-8 space-y-6"
+          <div className="space-y-6">
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="flex items-center gap-4 p-4 border border-border rounded-lg hover:border-primary/40 transition-colors"
             >
+              <Mail className="w-5 h-5 text-primary" />
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="Ezechiel Kiregha"
-                />
+                <p className="text-sm text-muted-foreground">Email</p>
+                <p className="font-medium">{personalInfo.email}</p>
               </div>
-
+            </a>
+            <div className="flex items-center gap-4 p-4 border border-border rounded-lg">
+              <MapPin className="w-5 h-5 text-primary" />
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                  placeholder="kkiregha@gmail.com"
-                />
+                <p className="text-sm text-muted-foreground">Location</p>
+                <p className="font-medium">{personalInfo.location}</p>
               </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              {/* Status Messages */}
-              {status === "success" && (
-                <div className="flex items-center gap-2 text-green-500 text-sm">
-                  <CheckCircle className="w-4 h-4" />
-                  Message sent successfully! I&apos;ll get back to you soon.
-                </div>
-              )}
-
-              {status === "error" && (
-                <div className="flex items-center gap-2 text-destructive text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  Something went wrong. Please try again.
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            </div>
+            <div className="flex gap-4">
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-border rounded-lg hover:border-primary/40 transition-colors"
+                aria-label="GitHub"
               >
-                <Send className="w-4 h-4" /> Send Message
-              </button>
-            </form>
-          </motion.div>
+                <Github className="w-5 h-5" />
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 border border-border rounded-lg hover:border-primary/40 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm mb-1">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your name"
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background"
+              />
+              {errors.name && (
+                <p className="text-xs text-red-500 mt-1">{errors.name}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background"
+              />
+              {errors.email && (
+                <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm mb-1">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Your message"
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background"
+              />
+              {errors.message && (
+                <p className="text-xs text-red-500 mt-1">{errors.message}</p>
+              )}
+            </div>
+            <button type="submit" className="btn-primary">
+              Send via email
+            </button>
+            {status === "opened" && (
+              <p className="text-sm text-muted-foreground">
+                Your email client should have opened with the message.
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </section>

@@ -20,14 +20,13 @@ export function ExperienceSection() {
           className="text-center mb-16"
         >
           <span className="text-primary font-semibold text-sm tracking-wider uppercase mb-4 block">
-            Work Experience
+            Experience
           </span>
-          <h2 className="section-heading mb-4">
-            Where I&apos;ve{" "}
-            <span className="text-gradient-gold">Made Impact</span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Professional experience
           </h2>
-          <p className="section-subheading mx-auto">
-            Professional experience building enterprise-level solutions
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Confirmed dates and evidence-led bullets. Some dates are marked TODO_VERIFY.
           </p>
         </motion.div>
 

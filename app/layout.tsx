@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { JetBrains_Mono } from "next/font/google";
+// QueryClient is provided by TanstackProvider
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,29 +8,36 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TanstackProvider } from "@/providers/TanstackProvider";
 import { ThemeProvider } from "next-themes";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.kiregha.tech"),
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple: "/apple-touch-icon.png",
   },
-  title: 'KIREGHA - DEV',
-  description: 'Professional Professional Portfolio',
-  keywords: ['portfolio', 'development'],
-  authors: [{ name: 'Kambale KIREGHA', url: 'https://github.com/EzechielKiregha' }],
+  title: "Kambale Kiregha Ezéchiel — Software Engineer",
+  description:
+    "Software engineer focused on backend and full-stack business applications: commerce platforms, POS, ERP and management software.",
+  keywords: ["portfolio", "software engineer", "backend", "full-stack", "Kigali"],
+  authors: [{ name: "Kambale Kiregha Ezéchiel", url: "https://github.com/EzechielKiregha" }],
+  alternates: { canonical: "https://www.kiregha.tech" },
+  openGraph: {
+    title: "Kambale Kiregha Ezéchiel — Software Engineer",
+    description: "Software engineer focused on backend and full-stack business applications.",
+    url: "https://www.kiregha.tech",
+    siteName: "Kiregha Portfolio",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
 };
 
-const queryClient = new QueryClient();
+
 
 export default function RootLayout({
   children,
@@ -40,11 +47,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${jetbrainsMono.variable} antialiased font-mono`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
